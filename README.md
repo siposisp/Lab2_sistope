@@ -8,7 +8,7 @@ Este laboratorio tiene como objetivo aplicar técnicas de programación imperati
 
 <h3>Autor: Nicolas Gajardo & Cristian Romero</h3>
 
-<h3>Fecha: 21-11-2024</h3>
+<h3>Fecha: 05-12-2024</h3>
 
 Cómo ejecutar este proyecto
 
