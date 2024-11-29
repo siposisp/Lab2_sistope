@@ -26,6 +26,13 @@ srep.o: srep.c funcionessrep.h
 funcionessrep.o: funcionessrep.c funcionessrep.h
 	gcc $(FLAGS) -c funcionessrep.c
 
+# Regla para lab2
+lab2: lab2.o
+	gcc $(FLAGS) -o lab2 lab2.o
+
+lab2.o: lab2.c
+	gcc $(FLAGS) -c lab2.c
+
 # Limpiar archivos generados
 clear:
-	rm -f cut count srep *.o
+	rm -f cut count srep lab2*.o
