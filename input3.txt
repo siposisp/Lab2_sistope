@@ -1,0 +1,5 @@
+Nombre Edad Ciudad Profesión
+JuanPérez 30 Madrid Ingeniero
+Marı́aGómez 25 Barcelona Doctora
+CarlosSánchez 40 Valencia Abogado
+AnaLópez 35 Madrid Arquitecta

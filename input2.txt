@@ -1,0 +1,5 @@
+Nombre;Edad;Ciudad;Profesión
+Juan Pérez;30;Madrid;Ingeniero
+Marı́a Gómez;25;Barcelona;Doctora
+Carlos Sánchez;40;Valencia;Abogado
+Ana López;35;Madrid;Arquitecta
