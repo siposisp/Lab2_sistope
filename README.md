@@ -2,7 +2,7 @@
 
 Este repositorio contiene el primer laboratorio del curso de Sistemas Operativos, principalmente enfocado en diferentes aspectos del manejo de procesos en un sistema operativo Linux.
 
-<h2>Laboratorio 1: Funciones Unix - Fork</h2>
+<h2>Laboratorio 2: Funciones Unix - Fork</h2>
 
 Este laboratorio tiene como objetivo aplicar técnicas de programación imperativa mediante lenguaje C, como la recepción de parámetros mediante getopt y compilación mediante Makefile sobre sistema operativo Linux.
 
