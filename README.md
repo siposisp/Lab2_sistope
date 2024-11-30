@@ -16,7 +16,7 @@ Cómo ejecutar este proyecto
 
 1.Compilar mediante el comando <code>make</code>.
 
-2.Para ejecutar debes estar conciente de las siguientes definiciones para los flags para los diferentes archivos:
+2.Para ejecutar debes estar conciente de las siguientes definiciones para los flags para los diferentes archivos.
 
 <h2>Ejecutar comandos por separado</h2>
 
