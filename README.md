@@ -66,6 +66,15 @@ Ejemplo de comando para ejecutar:
 
 Obs: El programa está preparado para entregar los valores solicitados de ejemplo en la rubrica.
 
+<h2>Archivo MakeFile</h2>
+
+Una vez abierta la consola/terminal en linux algunos comandos utiles para el archivo MakeFile son los siguientes:
+      
+              ./make              
+   
+              ./make clear 
+       
+
 <h2>Excepciones</h2>
 
 <h3>Primer Programa</h3>
