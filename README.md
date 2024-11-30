@@ -18,6 +18,8 @@ Cómo ejecutar este proyecto
 
 2.Para ejecutar debes estar conciente de las siguientes definiciones para los flags para los diferentes archivos:
 
+<h2>Ejecutar comandos por separado</h2>
+
 <h3>Primer Programa</h3>
 
        -i: es el archivo de entrada 
