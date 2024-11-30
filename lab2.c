@@ -1,60 +1,72 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <getopt.h>
-#include "funcionessrep.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
 
-//Bloque Principal
 int main(int argc, char *argv[]) {
-    printf("****************INICIO DEL PROGRAMA****************\n");
+    // Pipe
+    int fd[2];
+    if (pipe(fd) == -1) {
+        perror("Error al crear el pipe");
+        exit(1);
+    }
 
-    // Variables para almacenar las opciones de línea de comandos
-    char *archivoentrada = NULL;
-    char *archivosalida = NULL;
-    char *caracterAntiguo = NULL;
-    char *caracterNuevo = NULL;
+    // Fork
+    int pid = fork();
 
-    int option;
-   while ((option = getopt(argc, argv, "i:o:s:S:")) != -1) {
-        switch (option) {
-            case 's':
-                caracterAntiguo = optarg;  // Strings antiguos a buscar
-                break;
-            case 'S':
-                caracterNuevo = optarg;  //  Strings nuevos para reemplazar
-                break;
-            case 'i':
-                archivoentrada = optarg;  // Nombre del archivo de entrada
-                break;
-            case 'o':
-                archivosalida = optarg;  // Nombre del archivo de salida
-                break;
-            default:
-                fprintf(stderr, "Uso: %s [-s StringsAntiguos] [-S StringsNuevos]\n", argv[0]);
-                exit(EXIT_FAILURE);
+    if (pid == -1) {
+        perror("Error al crear el proceso hijo");
+        exit(1);
+    }
+
+    if (pid == 0) {
+        // Proceso hijo
+        close(fd[0]); // Cerrar el extremo de lectura del pipe
+
+        // Redirige stdout al extremo de escritura del pipe
+        if (dup2(fd[1], STDOUT_FILENO) == -1) {
+            perror("Error al redirigir stdout");
+            exit(1);
         }
-    }
 
-    //Manejo de errores en el archivo
-    if (archivoentrada == NULL) {
-        // Si no se proporciona un archivo de entrada, pedir al usuario que ingrese el nombre
-        char nombre_archivo[256];
-        printf("Ingrese el nombre del archivo de entrada: ");
-        
-        if (fscanf(stdin, "%s", nombre_archivo) == 1) {  // Leer desde stdin
-            archivoentrada = strdup(nombre_archivo); // Asignar el nombre del archivo a archivoentrada
-        } else {
-            fprintf(stderr, "Error al leer el nombre del archivo de entrada.\n");
-            exit(EXIT_FAILURE);
+        // Ejecutar el programa "cut" con los argumentos
+        char *argumentos[] = {"./cut", "-i", "input.txt", "-d", ":", "-c", "2,4", NULL};
+        execv(argumentos[0], argumentos);
+
+        // Si execv falla
+        perror("Error al ejecutar execv");
+        exit(1);
+    } else {
+        // Proceso padre
+        close(fd[1]); // Cerrar el extremo de escritura del pipe
+
+        // Abrir el archivo de salida
+        FILE *archivo = fopen("out.txt", "a");
+        if (archivo == NULL) {
+            perror("Error al abrir el archivo de salida");
+            exit(1);
         }
-    }
-    if(archivosalida != NULL){
-        vaciar_archivo(archivosalida); //Se limpia el archivo de salida, si es que existe
-    }
-   
-    //Llamado a la funcion procesar_archivo
-    procesar_archivo(archivoentrada, archivosalida, caracterAntiguo, caracterNuevo);
 
-    printf("*****************FIN DEL PROGRAMA*****************\n");
+        // Leer datos del pipe y escribirlos en el archivo
+        char buffer[1024];
+        ssize_t bytes_leidos;
+
+        while ((bytes_leidos = read(fd[0], buffer, sizeof(buffer))) > 0) {
+            fwrite(buffer, 1, bytes_leidos, archivo);
+        }
+
+        if (bytes_leidos == -1) {
+            perror("Error al leer del pipe");
+        }
+
+        // Cerrar recursos
+        fclose(archivo);
+        close(fd[0]);
+
+        // Esperar al proceso hijo
+        wait(NULL);
+    }
+
     return 0;
 }

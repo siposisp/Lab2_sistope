@@ -1,6 +1,6 @@
 FLAGS = -Wall
 
-all: cut count srep
+all: cut count srep lab2
 
 # Regla para cut
 cut: cut.o
@@ -35,4 +35,4 @@ lab2.o: lab2.c
 
 # Limpiar archivos generados
 clear:
-	rm -f cut count srep lab2*.o
+	rm -f cut count srep lab2 *.o

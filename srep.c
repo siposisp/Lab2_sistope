@@ -6,8 +6,6 @@
 
 //Bloque Principal
 int main(int argc, char *argv[]) {
-    printf("****************INICIO DEL PROGRAMA****************\n");
-
     // Variables para almacenar las opciones de línea de comandos
     char *archivoentrada = NULL;
     char *archivosalida = NULL;
@@ -54,7 +52,5 @@ int main(int argc, char *argv[]) {
    
     //Llamado a la funcion procesar_archivo
     procesar_archivo(archivoentrada, archivosalida, caracterAntiguo, caracterNuevo);
-
-    printf("*****************FIN DEL PROGRAMA*****************\n");
     return 0;
 }

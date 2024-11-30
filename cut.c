@@ -566,15 +566,13 @@ void procesar_archivo_con_espacios(char* filename, int* columnas, int largoarreg
         }
     }
 
-    printf("Archivo procesado correctamente\n");
+    //printf("Archivo procesado correctamente\n");
 
 }
 
 //Bloque Principal
 int main(int argc, char *argv[])
 {
-    printf("****************INICIO DEL PROGRAMA****************\n\n");
-
     // Variables para almacenar las opciones de línea de comandos
     int option;
     char *archivoentrada = NULL;
@@ -610,7 +608,7 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'c':
-                columnas = optarg; //Indicar la o las columnas 
+                columnas = optarg; //    printf("\n*****************FIN DEL PROGRAMA*****************\n");Indicar la o las columnas 
                 break;
             case 'i':
                 archivoentrada = optarg; //Nombre del archivo de entrada
@@ -676,6 +674,5 @@ int main(int argc, char *argv[])
         // Llamado a la funcion reimprimir_archivo
         reimprimir_archivo(archivoentrada,archivosalida);
     }
-    printf("\n*****************FIN DEL PROGRAMA*****************\n");
     return 0;
 }

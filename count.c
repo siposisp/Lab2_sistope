@@ -7,8 +7,6 @@
 
 //Bloque Principal
 int main(int argc, char *argv[]) {
-    printf("****************INICIO DEL PROGRAMA****************\n");
-
     // Variables para almacenar las opciones de línea de comandos
     char *archivoentrada = NULL;
     char cantidad_lineas = 0;
@@ -59,7 +57,5 @@ int main(int argc, char *argv[]) {
 
     // Llamado de la funcion resultados
     resultados(lineas, caracteres, cantidad_lineas, cantidad_caracteres);
-
-    printf("*****************FIN DEL PROGRAMA*****************\n");
     return 0;
 }

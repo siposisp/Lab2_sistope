@@ -120,7 +120,7 @@ void procesar_archivo(char* filename, char* output_filename, char* caracterAntig
         fclose(output_file);
     }
     // Feedback por consola, indica si el archivo se proceso y hasta donde se proceso (contador).
-    printf("Archivo procesado....\nSe escribieron %d lineas.\n", contador);
+    //printf("Archivo procesado....\nSe escribieron %d lineas.\n", contador);
 }
 
 
