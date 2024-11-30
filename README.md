@@ -1,14 +1,14 @@
 <h1>Sistemas Operativos: Laboratorio 2</h1>
 
-Este repositorio contiene el primer laboratorio del curso de Sistemas Operativos, principalmente enfocado en diferentes aspectos del manejo de procesos en un sistema operativo Linux.
+Este repositorio contiene el segundo laboratorio del curso de Sistemas Operativos, principalmente enfocado en diferentes aspectos del manejo de procesos en un sistema operativo Linux y el uso de pipes.
 
-<h2>Laboratorio 2: Funciones Unix - Fork</h2>
+<h2>Laboratorio 2: Funciones Unix - Fork - Pipes</h2>
 
-Este laboratorio tiene como objetivo aplicar técnicas de programación imperativa mediante lenguaje C, como la recepción de parámetros mediante getopt y compilación mediante Makefile sobre sistema operativo Linux.
+Este laboratorio tiene como objetivo aplicar técnicas de programación imperativa mediante lenguaje C, como la recepción de parámetros mediante getopt, compilación mediante Makefile sobre sistema operativo Linux y el manejo de la creacion de procesos y uso de pipes mediante linea de comando.
 
 <h3>Autor: Nicolas Gajardo & Cristian Romero</h3>
 
-<h3>Fecha: 21-11-2024</h3>
+<h3>Fecha: 05-12-2024</h3>
 
 Cómo ejecutar este proyecto
 
@@ -16,7 +16,9 @@ Cómo ejecutar este proyecto
 
 1.Compilar mediante el comando <code>make</code>.
 
-2.Para ejecutar debes estar conciente de las siguientes definiciones para los flags para los diferentes archivos:
+2.Para ejecutar debes estar conciente de las siguientes definiciones para los flags para los diferentes archivos.
+
+<h2>Ejecutar comandos por separado</h2>
 
 <h3>Primer Programa</h3>
 
@@ -66,7 +68,16 @@ Ejemplo de comando para ejecutar:
 
 Obs: El programa está preparado para entregar los valores solicitados de ejemplo en la rubrica.
 
-<h2>Excepciones</h2>
+<h2>Archivo MakeFile</h2>
+
+Una vez abierta la consola/terminal en linux algunos comandos utiles para el archivo MakeFile son los siguientes:
+      
+              ./make              
+   
+              ./make clear 
+       
+
+<h2>Excepciones en laboratorio 1</h2>
 
 <h3>Primer Programa</h3>
 
@@ -103,7 +114,19 @@ Existen comandos que deben ser escritos doblemente debido a diversos factores en
 Ejemplo de compilado correcto:
 
               ./srep -i input.txt -o ouput.txt -s root -S //
-             
+
+<h2>Archivo lab2.c</h2>
+
+Comandos para ejecutar el archivo lab2.c implementando pipes segun los requerimientos solicitados:
+
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | srep -s / -S \ | count -o output.txt -C -L
+
+               ./lab2 ./srep -i input.txt -s / -S \ | cut -d : -c 2,4 -o output.txt
+
+               ./lab2 cut -i input.txt -d : -c 2,4 | ./srep -s / -S \ | count -C
+
+Estos son algunos ejemplos de comandos implementados.
+               
 <h2>Descripción</h2>
 
 En este laboratorio se implementara algunas funciones simplificadas de las que provienen UNIX, en la que se realizaran distintas manipulaciones de texto sobre los archivos csv entregados. Cada una de estas funciones sera un archivo .c distinto, el cual realizara el simil de la funcion UNIX respectiva. Finalmente, estos archivos se ejecutaran por linea de comando.
@@ -116,3 +139,14 @@ de interes.
 El programa srep (String Replace) realiza un reemplazo del “string objetivo” (el que se encuentra dentro del archivo) por el “string nuevo” (el que ocupara el nuevo lugar dentro del archivo). Este cambio debe realizarse para todas las instancias en el que se encuentre el “string objetivo”. Finalmente se debera guardar la informacion reemplazada en un archivo de salida.
 <h3>Funcion Count</h3>
 El programa count se usa para obtener el total de lineas, palabras o bytes contenidos en el archivo csv, siendo en el caso de indicar un archivo de entrada; en caso contrario, la entrada sera por stdin.
+
+<h3>Uso de pipes</h3>
+
+Anteriormente, se describieron los programas cut, count y srep, los que debieron ser construidos e implementados en el laboratorio 1. Ahora se debera desarrollar un cuarto programa, el que tendra la mision de llamar y coordinar a los programas mencionados anteriormente (cut, count y srep). Este cuarto programa debe ser llamado lab2.c el cual recibira como argumento de linea de comando un string que describe la ejecucion de uno, dos o tres de los programas (cut, count y srep) conectados
+por pipes.
+
+La idea del lab2 es simular las operaciones que realiza la bash, cuando se ejecuta este comando (los comandos fueron meencionados anteriormente como ejemplo).
+
+Luego, cada programa debe tener la capacidad de determinar si su operacion de I/O, ya sea de lectura o escritura, es por archivo o por stdin, y stdout. Tambien, el proceso lab2 debe saber cuando duplicar las entradas y salidas estandar con los pipes.
+
+
