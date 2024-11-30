@@ -75,7 +75,7 @@ Una vez abierta la consola/terminal en linux algunos comandos utiles para el arc
               ./make clear 
        
 
-<h2>Excepciones</h2>
+<h2>Excepciones en laboratorio 1</h2>
 
 <h3>Primer Programa</h3>
 
