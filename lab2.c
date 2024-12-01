@@ -3,8 +3,79 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Uso: %s \"comandos\"\n", argv[0]);
+        return 1;
+    }
+
+    // Crear una copia modificable de la cadena
+    char *comandos = malloc(strlen(argv[1]) + 1);
+    if (!comandos) {
+        perror("Error al reservar memoria");
+        return 1;
+    }
+
+    strcpy(comandos, argv[1]);
+
+    // Contamos el número de tokens
+    int num_tokens = 0;
+    char *token = strtok(comandos, "|");
+    while (token != NULL) {
+        num_tokens++;
+        token = strtok(NULL, "|");
+    }
+
+    // Ahora asignamos memoria para los tokens
+    char **programas = malloc(sizeof(char*) * (num_tokens + 1));
+    if (!programas) {
+        perror("Error al reservar memoria para programas");
+        return 1;
+    }
+
+    // Re-inicializamos `comandos` para tokenizar nuevamente
+    strcpy(comandos, argv[1]);
+    token = strtok(comandos, "|");
+    int i = 0;
+    while (token != NULL) {
+        programas[i++] = token;
+        token = strtok(NULL, "|");
+    }
+    programas[i] = NULL; // Finalizamos la lista de programas
+
+    // Mostrar los programas divididos
+    for (int j = 0; j < i; j++) {
+        printf("Programa %d: %s\n", j + 1, programas[j]);
+    }
+
+    // Ahora manejamos el primer programa
+    char *args[128];
+    char *cmd = strdup(programas[1]);  // Usamos el primer comando como ejemplo
+    char *arg = strtok(cmd, " ");
+    int arg_index = 0;
+
+    while (arg != NULL) {
+        args[arg_index++] = arg;
+        arg = strtok(NULL, " ");
+    }
+    args[arg_index] = NULL; // Terminar el arreglo de argumentos con NULL
+
+    // Mostrar los argumentos del primer comando
+    printf("Comando: %s\n", args[0]);
+    if (args[1]) {
+        printf("Argumento 1: %s\n", args[1]);
+    }
+
+
+
+
+
+
+
+
+
     // Pipe
     int fd[2];
     if (pipe(fd) == -1) {
@@ -30,12 +101,9 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
 
-        // Ejecutar el programa "cut" con los argumentos
-        char *argumentos[] = {"./cut", "-i", "input.txt", "-d", ":", "-c", "2,4", NULL};
-        execv(argumentos[0], argumentos);
-
-        // Si execv falla
-        perror("Error al ejecutar execv");
+        // Ejecutar el comando
+        execvp(args[0], args);
+        perror("Error al ejecutar el comando");
         exit(1);
     } else {
         // Proceso padre
@@ -67,6 +135,7 @@ int main(int argc, char *argv[]) {
         // Esperar al proceso hijo
         wait(NULL);
     }
+
 
     return 0;
 }
