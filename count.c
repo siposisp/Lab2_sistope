@@ -20,73 +20,73 @@ FILE* vaciar_archivo(char *nombreArchivo){
     return archivo;
 }
 
-// Bloque principal
+
 int main(int argc, char *argv[]) {
     // Variables para almacenar las opciones de línea de comandos
-    char *archivoentrada = NULL;  // No se usará en este caso si leemos de stdin
-    char cantidad_lineas = 0;
-    char cantidad_caracteres = 0;
-    int caracteres = 0;
-    int lineas = 0;
-    char *archivosalida = NULL;  // Para la opción -o
+    char *archivoentrada = NULL;  // Archivo de entrada (NULL para stdin)
+    char cantidad_lineas = 0;     // Bandera para contar líneas
+    char cantidad_caracteres = 0; // Bandera para contar caracteres
+    int caracteres = 0;           // Conteo de caracteres
+    int lineas = 0;               // Conteo de líneas
+    char *archivosalida = NULL;   // Archivo de salida
 
+    // Parsear opciones de línea de comandos
     int option;
-    while ((option = getopt(argc, argv, "i:o:CL")) != -1) {  // Agregamos 'o:' para la opción de salida
+    while ((option = getopt(argc, argv, "i:o:CL")) != -1) {
         switch (option) {
             case 'i':
-                archivoentrada = optarg; // Nombre del archivo de entrada (no necesario si leemos de stdin)
+                archivoentrada = optarg; // Archivo de entrada
                 break;
             case 'C':
-                cantidad_caracteres = 1; // Contar el número de caracteres
+                cantidad_caracteres = 1; // Contar caracteres
                 break;
             case 'L':
-                cantidad_lineas = 1; // Contar el número de líneas
+                cantidad_lineas = 1;     // Contar líneas
                 break;
             case 'o':
-                archivosalida = optarg;  // Nombre del archivo de salida
+                archivosalida = optarg; // Archivo de salida
                 break;
             default:
-                fprintf(stderr, "Uso: %s [-L] [-C] [-o archivo_salida]\n", argv[0]);
+                fprintf(stderr, "Uso: %s [-L] [-C] [-o archivo_salida] [-i archivo_entrada]\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
 
-    // Manejo de errores en el archivo
-    if (archivoentrada == NULL) {
-        // Si no se especifica el archivo de entrada, leer de stdin
-        archivoentrada = "stdin"; // Esto es solo para el flujo de trabajo
-    }
-
-    // Limpiar archivo de salida si se especificó
-    FILE *salida = stdout;  // Por defecto, escribir en stdout
+    // Manejo del archivo de salida
+    FILE *salida = stdout; // Por defecto, escribir en stdout
     if (archivosalida != NULL) {
-        salida = vaciar_archivo(archivosalida);  // Limpiar y abrir el archivo de salida
+        salida = fopen(archivosalida, "w"); // Abrir archivo de salida en modo escritura
+        if (salida == NULL) {
+            perror("Error al abrir el archivo de salida");
+            exit(EXIT_FAILURE);
+        }
     }
 
-    // Leer desde stdin (si no hay archivo de entrada especificado)
-    FILE *entrada;
-    if (archivoentrada != NULL && strcmp(archivoentrada, "stdin") == 0) {
-        entrada = stdin;  // Si no se especifica archivo, se usa stdin
-    } else {
-        entrada = fopen(archivoentrada, "r");  // Si se especifica archivo, se intenta abrir
+    // Manejo del archivo de entrada
+    FILE *entrada = stdin; // Por defecto, leer desde stdin
+    if (archivoentrada != NULL) {
+        entrada = fopen(archivoentrada, "r"); // Intentar abrir el archivo de entrada
         if (entrada == NULL) {
             perror("Error al abrir el archivo de entrada");
-            exit(EXIT_FAILURE);  // Salir si no se puede abrir el archivo
+            if (salida != stdout) fclose(salida); // Cerrar archivo de salida si está abierto
+            exit(EXIT_FAILURE);
         }
     }
 
     // Llamado a la función de cálculo
     calculo(entrada, cantidad_caracteres, cantidad_lineas, &caracteres, &lineas);
 
-    // Cierre de archivo
-    fclose(entrada);
+    // Cerrar el archivo de entrada si no es stdin
+    if (entrada != stdin) {
+        fclose(entrada);
+    }
 
     // Llamado a la función de resultados
-    resultados(lineas, caracteres-1, cantidad_lineas, cantidad_caracteres);
+    resultados(lineas, caracteres - 1, cantidad_lineas, cantidad_caracteres);
 
-    // Si la salida es a un archivo, redirigir a ese archivo
-    if(salida != stdout) {
-        fprintf(salida, "%d %d\n", lineas, caracteres-1);
+    // Si la salida es un archivo, escribir resultados y cerrarlo
+    if (salida != stdout) {
+        fprintf(salida, "%d:%d\n", lineas, caracteres - 1);
         fclose(salida);
     }
 

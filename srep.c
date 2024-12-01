@@ -33,21 +33,26 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //Manejo de errores en el archivo
-    if (archivoentrada == NULL) {
-        // Si no se proporciona un archivo de entrada, pedir al usuario que ingrese el nombre
-        char nombre_archivo[256];
-        printf("Ingrese el nombre del archivo de entrada: ");
-        
-        if (fscanf(stdin, "%s", nombre_archivo) == 1) {  // Leer desde stdin
-            archivoentrada = strdup(nombre_archivo); // Asignar el nombre del archivo a archivoentrada
-        } else {
-            fprintf(stderr, "Error al leer el nombre del archivo de entrada.\n");
+
+    // Manejo del archivo de salida
+    FILE *salida = stdout; // Por defecto, escribir en stdout
+    if (archivosalida != NULL) {
+        salida = fopen(archivosalida, "w"); // Abrir archivo de salida en modo escritura
+        if (salida == NULL) {
+            perror("Error al abrir el archivo de salida");
             exit(EXIT_FAILURE);
         }
     }
-    if(archivosalida != NULL){
-        vaciar_archivo(archivosalida); //Se limpia el archivo de salida, si es que existe
+
+    // Manejo del archivo de entrada
+    FILE *entrada = stdin; // Por defecto, leer desde stdin
+    if (archivoentrada != NULL) {
+        entrada = fopen(archivoentrada, "r"); // Intentar abrir el archivo de entrada
+        if (entrada == NULL) {
+            perror("Error al abrir el archivo de entrada");
+            if (salida != stdout) fclose(salida); // Cerrar archivo de salida si está abierto
+            exit(EXIT_FAILURE);
+        }
     }
    
     //Llamado a la funcion procesar_archivo
