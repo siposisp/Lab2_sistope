@@ -262,7 +262,7 @@ void procesar_archivo(char* filename, int* columnas, int largoarreglo, char* arc
         }
     }
 
-    printf("Archivo procesado correctamente\n");
+    //printf("Archivo procesado correctamente\n");
 
 }
 
