@@ -186,15 +186,15 @@ int buscar_caracter_en_arreglo(char* arreglo, int tamano, char caracter) {
 //               Dependiendo de si se proporciona el nombre del archivo de salida o no, se imprime por consola o se guarda en el archivo de salida.
 //               Se libera la memoria correspondiente.
 //               Se cierra el archivo y se envia mensaje de exito.
-void procesar_archivo(char* filename, int* columnas, int largoarreglo, char* archivosalida, char separador){
+void procesar_archivo(FILE *file, int* columnas, int largoarreglo, char* archivosalida, char separador){
     char linea[1024];
 
     // Abrir el archivo en modo lectura
-    FILE* file = fopen(filename, "r");  
-    if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
-        printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
-        return;
-    }
+    //FILE* file = fopen(filename, "r");  
+    //if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
+    //    printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
+    //    return;
+    //}
 
     while (fgets(linea, sizeof(linea), file)) {
         // Se verifica que la linea tanga el separador
@@ -341,15 +341,15 @@ int* arreglo_char_to_int(char* lista){
 // Descripción : La funcion lee el archivo de entrada linea a linea.
 //               Escribe su contenido en un archivo de salida especifico.
 //               Si no se puede abrir el archivo imprime errores correspondientes. Finalmente muestra el mensaje de archivo procesado y cierra el archivo.
-void reimprimir_archivo(char* filename, char* archivosalida) {
+void reimprimir_archivo(FILE *file, char* archivosalida) {
     char linea[1024];
 
     // Abrir el archivo en modo lectura
-    FILE* file = fopen(filename, "r");  
-    if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
-        printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
-        return;
-    }
+    //FILE* file = fopen(filename, "r");  
+    //if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
+    //    printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
+    //    return;
+    //}
 
     //Leer linea por linea el archivo
     while (fgets(linea, sizeof(linea), file)) {
@@ -490,15 +490,15 @@ char** linea_a_arreglo_con_espacios(char* linea) {
 //               Dependiendo de si se proporciona el nombre del archivo de salida o no, se imprime por consola o se guarda en el archivo de salida.
 //               Se libera la memoria correspondiente.
 //               Se cierra el archivo y se envia mensaje de exito.
-void procesar_archivo_con_espacios(char* filename, int* columnas, int largoarreglo, char* archivosalida, char* separador, int cantidad_de_espacios){
+void procesar_archivo_con_espacios(FILE *file, int* columnas, int largoarreglo, char* archivosalida, char* separador, int cantidad_de_espacios){
     char linea[1024];
 
     // Abrir el archivo en modo lectura
-    FILE* file = fopen(filename, "r");  
-    if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
-        printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
-        return;
-    }
+    //FILE* file = fopen(filename, "r");  
+    //if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
+    //    printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
+    //    return;
+    //}
     
 
     while (fgets(linea, sizeof(linea), file)) {
@@ -584,6 +584,9 @@ int main(int argc, char *argv[])
     //Se utiliza geopt para leer las opciones de línea de comandos
     while ((option = getopt(argc, argv, "i:o:d:c:")) != -1) {
         switch (option) {
+            case 'i':
+                archivoentrada = optarg; //Nombre del archivo de entrada
+                break;
             case 'd':
                 if (strcmp(optarg, "t") == 0) {
                     separador = "\t";
@@ -608,13 +611,10 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'c':
-                columnas = optarg; //    printf("\n*****************FIN DEL PROGRAMA*****************\n");Indicar la o las columnas 
-                break;
-            case 'i':
-                archivoentrada = optarg; //Nombre del archivo de entrada
+                columnas = optarg; // Indicar la o las columnas 
                 break;
             case 'o':
-                archivosalida = optarg; //Nombre del archivo de salida
+                archivosalida = optarg; // Nombre del archivo de salida
                 break;
             default:
                 fprintf(stderr, "Uso: %s [-c columnas]\n", argv[0]);
@@ -622,26 +622,28 @@ int main(int argc, char *argv[])
         }
     }
 
-    //Manejo de errores en el archivo
-    if (archivoentrada == NULL) {
-        // Si no se proporciona un archivo de entrada, pedir al usuario que ingrese el nombre
-        char nombre_archivo[256];
-        printf("Ingrese el nombre del archivo de entrada: ");
-        
-        if (fscanf(stdin, "%s", nombre_archivo) == 1) {  // Leer desde stdin
-            archivoentrada = strdup(nombre_archivo); // Asignar el nombre del archivo a archivoentrada
-        } else {
-            fprintf(stderr, "Error al leer el nombre del archivo de entrada.\n");
+    // Manejo del archivo de salida
+    FILE *salida = stdout; // Por defecto, escribir en stdout
+    if (archivosalida != NULL) {
+        salida = fopen(archivosalida, "w"); // Abrir archivo de salida en modo escritura
+        if (salida == NULL) {
+            perror("Error al abrir el archivo de salida");
             exit(EXIT_FAILURE);
         }
     }
 
-    if(archivosalida != NULL){
-        // Llamado a la funcion vaciar_archivo
-        vaciar_archivo(archivosalida); //Se limpia el archivo de salida, si es que existe
+    // Manejo del archivo de entrada
+    FILE *entrada = stdin; // Por defecto, leer desde stdin
+    if (archivoentrada != NULL) {
+        entrada = fopen(archivoentrada, "r"); // Intentar abrir el archivo de entrada
+        if (entrada == NULL) {
+            perror("Error al abrir el archivo de entrada");
+            if (salida != stdout) fclose(salida); // Cerrar archivo de salida si está abierto
+            exit(EXIT_FAILURE);
+        }
     }
-    
-    
+
+        
     if(columnas != NULL)
     {
         // Llamado a la funcion cantidad_de_numeros    
@@ -658,10 +660,10 @@ int main(int argc, char *argv[])
             strcmp(separador, ",") == 0 || 
             strcmp(separador, " ") == 0){
             // Llamado a la función procesar_archivo
-            procesar_archivo(archivoentrada, arreglo_numeros, cantidad_numeros, archivosalida, separador[0]);
+            procesar_archivo(entrada, arreglo_numeros, cantidad_numeros, archivosalida, separador[0]);
         }
         else if(cantidad_de_espacios > 1){
-            procesar_archivo_con_espacios(archivoentrada, arreglo_numeros, cantidad_numeros, archivosalida, separador, cantidad_de_espacios);
+            procesar_archivo_con_espacios(entrada, arreglo_numeros, cantidad_numeros, archivosalida, separador, cantidad_de_espacios);
         }
 
         //procesar_archivo(archivoentrada, arreglo_numeros, cantidad_numeros, archivosalida, separador[0]);
@@ -672,7 +674,7 @@ int main(int argc, char *argv[])
     
     else{
         // Llamado a la funcion reimprimir_archivo
-        reimprimir_archivo(archivoentrada,archivosalida);
+        reimprimir_archivo(entrada,archivosalida);
     }
     return 0;
 }
