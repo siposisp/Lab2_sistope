@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
                 archivosalida = optarg;  // Nombre del archivo de salida
                 break;
             default:
-                fprintf(stderr, "Uso: %s [-s StringsAntiguos] [-S StringsNuevos]\n", argv[0]);
+                fprintf(stderr, "Uso: %s [-i archivoentrada] [-o archivosalida][-s StringsAntiguos] [-S StringsNuevos]\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
@@ -55,7 +55,18 @@ int main(int argc, char *argv[]) {
         }
     }
    
-    //Llamado a la funcion procesar_archivo
-    procesar_archivo(archivoentrada, archivosalida, caracterAntiguo, caracterNuevo);
+    //Llamado a la funcion procesar_archivo //Funcion del laboratorio 1
+    //procesar_archivo(archivoentrada, archivosalida, caracterAntiguo, caracterNuevo);
+    
+    // Procesar archivo usando el flujo adecuado (archivo o stdin) //Ajuste a la funcion del laboratorio 1
+    procesar_archivo_ajustada(entrada, salida, caracterAntiguo, caracterNuevo);
+
+    // Cerrar los archivos si no son stdin/stdout
+    if (entrada != stdin) {
+         fclose(entrada);
+     } 
+    if (salida != stdout){
+         fclose(salida);
+    }
     return 0;
 }

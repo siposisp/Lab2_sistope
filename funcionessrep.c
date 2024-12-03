@@ -123,4 +123,26 @@ void procesar_archivo(char* filename, char* output_filename, char* caracterAntig
     //printf("Archivo procesado....\nSe escribieron %d lineas.\n", contador);
 }
 
+//Laboratorio 2 (Ajuste)
+// Entradas: Recibe un char* correspondiente al nombre del archivo de input, un char* correspondiente al nombre del archivo output,
+//           un char* correspondiente al caracter original a cambiar y un char* correspondiente al caracter nuevo a escribir.
+// Salida: No retorna nada
+// Descripción: Verifica si el archivo de entrada existe y se abre correctamente.
+//              Luego comprueba si se ha escrito el nombre del archivo de salida por consola y realiza la apertura correspondiente. En caso de que no se escriba se utilizara la consola en todo el proceso.
+//              Lee linea a linea el archivo de entrada (input.txt de ejemplo).
+//              Llama a la funcion para reemplazar una cadena de caracteres actuales del archivo por otra cadena nueva, tomando en cuenta los valores por comando.
+//              Termina la lectura y escribe el resultado en el archivo de salida o por consola (stdout dependiendo de si no se proporciono nombre). Mientras mantiene un contador.
+//              Se cierran los archivos e imprime la cantidad de lineas que se leyeron por consola como feedback.
+//              Lab2: Esta funcion esta habilitada para recibir archivos por stdin en una cadena usando pipes segun lo solicitado.
+void procesar_archivo_ajustada(FILE *entrada, FILE *salida, char *caracterAntiguo, char *caracterNuevo) {
+    char linea[1024];
+
+    // Leer línea por línea desde la entrada
+    while (fgets(linea, sizeof(linea), entrada)) {
+        // Reemplazar caracteres en la línea
+        char *linea_nueva = reemplazar_caracter(linea, caracterAntiguo, caracterNuevo);
+        // Escribir la línea procesada en la salida
+        fprintf(salida, "%s", linea_nueva);
+    }
+}
 

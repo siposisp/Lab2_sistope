@@ -20,8 +20,8 @@ FILE* procesar_archivo(char *archivoentrada) {
 // Salida : no retorna nada
 // Descripción : Funcion que calcula la cantidad de caracteres de un archivo y la cantidad de lineas que posee el mismo archivo.
 void calculo(FILE *archivo, char cantidad_caracteres, char cantidad_lineas, int *caracteres, int *lineas) {
-    char c;         
-    char limite = 0; //Utilizare este indicador para asegurar que el archivo se lee completo
+    char c;
+    char limite = 0; // Utilizo este indicador para asegurar que el archivo se lee completo
     while ((c = fgetc(archivo)) != EOF) {
         if (cantidad_caracteres) {
             (*caracteres)++;
@@ -40,15 +40,15 @@ void calculo(FILE *archivo, char cantidad_caracteres, char cantidad_lineas, int 
 //Entradas : Recibe un int correspondiente a la linea de comando, un int correspondiente a los caracteres de comando, un char para guardar la cantidad de lineas 
 //            y otra char para guardar la cantidad de caracteres.
 // Salida : no retorna nada.
-// Descripción : Funcion que imprime los resultados.
-void resultados(int lineas, int caracteres, char cantidad_lineas, char cantidad_caracteres) {
+// Descripción : Funcion que imprime los resultados, tambien lo hara si es para una entrada stdin o stdou para pipes en laboratorio 2.
+void resultados(int lineas, int caracteres, char cantidad_lineas, char cantidad_caracteres, FILE *salida) {
     if (cantidad_lineas && cantidad_caracteres) {
-        printf("%d %d\n", lineas, caracteres);   //Imprime la cantidad de líneas y caracteres
+        fprintf(salida, "%d %d\n", lineas, caracteres);   // Imprime la cantidad de líneas y caracteres
     } else if (cantidad_lineas) {
-        printf("%d\n", lineas); // Imprime la cantidad de líneas
+        fprintf(salida, "%d\n", lineas); // Imprime la cantidad de líneas
     } else if (cantidad_caracteres) {
-        printf("%d\n", caracteres); // Imprime la cantidad de caracteres
-    }else{
-        printf("Error al imprimir los caracteres o lineas\n");
+        fprintf(salida, "%d\n", caracteres); // Imprime la cantidad de caracteres
+    } else {
+        fprintf(salida, "Error al imprimir los caracteres o lineas\n");
     }
 }

@@ -4,23 +4,6 @@
 #include <string.h>
 #include "funcionescount.c"
 
-FILE* vaciar_archivo(char *nombreArchivo);
-void calculo(FILE *archivo, char cantidad_caracteres, char cantidad_lineas, int *caracteres, int *lineas);
-void resultados(int lineas, int caracteres, char cantidad_lineas, char cantidad_caracteres);
-
-// Manejo de errores y archivo
-FILE* vaciar_archivo(char *nombreArchivo){
-    FILE *archivo = fopen(nombreArchivo, "w");
-
-    // Verificar si el archivo se abrió correctamente
-    if (archivo == NULL) {
-        printf("Error al abrir el archivo.\n");
-    }
-
-    return archivo;
-}
-
-
 int main(int argc, char *argv[]) {
     // Variables para almacenar las opciones de línea de comandos
     char *archivoentrada = NULL;  // Archivo de entrada (NULL para stdin)
@@ -29,8 +12,7 @@ int main(int argc, char *argv[]) {
     int caracteres = 0;           // Conteo de caracteres
     int lineas = 0;               // Conteo de líneas
     char *archivosalida = NULL;   // Archivo de salida
-
-    // Parsear opciones de línea de comandos
+    
     int option;
     while ((option = getopt(argc, argv, "i:o:CL")) != -1) {
         switch (option) {
@@ -47,7 +29,7 @@ int main(int argc, char *argv[]) {
                 archivosalida = optarg; // Archivo de salida
                 break;
             default:
-                fprintf(stderr, "Uso: %s [-L] [-C] [-o archivo_salida] [-i archivo_entrada]\n", argv[0]);
+                fprintf(stderr, "Uso: %s [-i archivo_entrada][-o archivo_salida] [-L] [-C] \n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
@@ -81,12 +63,11 @@ int main(int argc, char *argv[]) {
         fclose(entrada);
     }
 
-    // Llamado a la función de resultados
-    resultados(lineas, caracteres - 1, cantidad_lineas, cantidad_caracteres);
-
+    // Llamado a la función de resultados, pasando el puntero de salida
+    resultados(lineas, caracteres, cantidad_lineas, cantidad_caracteres, salida);
+  
     // Si la salida es un archivo, escribir resultados y cerrarlo
     if (salida != stdout) {
-        fprintf(salida, "%d:%d\n", lineas, caracteres - 1);
         fclose(salida);
     }
 
