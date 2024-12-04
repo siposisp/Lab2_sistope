@@ -125,9 +125,9 @@ Comandos para ejecutar el archivo lab2.c implementando pipes segun los requerimi
 
                ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
 
-              ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 -o output.txt
+               ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 -o output.txt
 
-              ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 | ./count -L -o output.txt
+               ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 | ./count -L -o output.txt
 
 Estos son algunos ejemplos de comandos implementados.
 
@@ -141,7 +141,7 @@ Caso erroneo:
 
 Caso correcto:
 
-               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \ | ./count -C -o output.txt
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
 
 Excepcion 2: El programa esta habilitado a recibir comandos sin comillas (" ").
 
