@@ -607,7 +607,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Manejo del archivo de salida
+        // Manejo del archivo de salida
     FILE *salida = stdout; // Por defecto, escribir en stdout
     if (archivosalida != NULL) {
         salida = fopen(archivosalida, "w"); // Abrir archivo de salida en modo escritura
@@ -616,6 +616,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
     }
+
 
     // Manejo del archivo de entrada
     FILE *entrada = stdin; // Por defecto, leer desde stdin
