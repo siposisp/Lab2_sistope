@@ -172,7 +172,7 @@ int buscar_caracter_en_arreglo(char* arreglo, int tamano, char caracter) {
     return 0;  // El char no está en el arreglo
 }
 
-// Entradas : Recibe un char* correspondiente al nombre del archivo de entrada.
+// Entradas : Recibe un FILE* correspondiente al archivo de entrada.
 //            Un int* correspondiente a un arreglo de enteros que indica los indice de las columnas que se extraeran (comando).
 //            Un int correspondiente al numero de elementos en el arreglo columnas (largo del arreglo) que indica cuantas se van a extraer. 
 //            Un char* correspondiente al nombre del archivo de salida.   
@@ -336,7 +336,7 @@ int* arreglo_char_to_int(char* lista){
     return arreglo_numeros;
 }
 
-// Entradas : Recibe un char* correspondiente al archivo de entrada y un char* correspondiente al nombre del archivo de salida.
+// Entradas : Recibe un FILE* correspondiente al archivo de entrada y un char* correspondiente al nombre del archivo de salida.
 // Salida : No retorna nada.
 // Descripción : La funcion lee el archivo de entrada linea a linea.
 //               Escribe su contenido en un archivo de salida especifico.
@@ -468,7 +468,7 @@ char** linea_a_arreglo_con_espacios(char* linea) {
     return arreglo; 
 }
 
-// Entradas : Recibe un char* correspondiente al nombre del archivo de entrada.
+// Entradas : Recibe un FILE* correspondiente al archivo de entrada.
 //            Un int* correspondiente a un arreglo de enteros que indica los indice de las columnas que se extraeran (comando).
 //            Un int correspondiente al numero de elementos en el arreglo columnas (largo del arreglo) que indica cuantas se van a extraer. 
 //            Un char* correspondiente al nombre del archivo de salida.   
@@ -550,8 +550,6 @@ void procesar_archivo_con_espacios(FILE *file, int* columnas, int largoarreglo, 
         free(arreglo_de_linea);
         }
     }
-
-    //printf("Archivo procesado correctamente\n");
 
 }
 
