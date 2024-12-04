@@ -344,13 +344,6 @@ int* arreglo_char_to_int(char* lista){
 void reimprimir_archivo(FILE *file, char* archivosalida) {
     char linea[1024];
 
-    // Abrir el archivo en modo lectura
-    //FILE* file = fopen(filename, "r");  
-    //if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
-    //    printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
-    //    return;
-    //}
-
     //Leer linea por linea el archivo
     while (fgets(linea, sizeof(linea), file)) {
         guardar_en_archivo(archivosalida, linea);
@@ -492,14 +485,6 @@ char** linea_a_arreglo_con_espacios(char* linea) {
 //               Se cierra el archivo y se envia mensaje de exito.
 void procesar_archivo_con_espacios(FILE *file, int* columnas, int largoarreglo, char* archivosalida, char* separador, int cantidad_de_espacios){
     char linea[1024];
-
-    // Abrir el archivo en modo lectura
-    //FILE* file = fopen(filename, "r");  
-    //if (file == NULL) { // Verificar que el archivo se haya abierto correctamente
-    //    printf("Error al ingresar parametro flag -i. \nVerifique que el nombre sea correcto o si el archivo existe \n");
-    //    return;
-    //}
-    
 
     while (fgets(linea, sizeof(linea), file)) {
         // Se verifica que la linea tanga el separador
@@ -666,8 +651,6 @@ int main(int argc, char *argv[])
             procesar_archivo_con_espacios(entrada, arreglo_numeros, cantidad_numeros, archivosalida, separador, cantidad_de_espacios);
         }
 
-        //procesar_archivo(archivoentrada, arreglo_numeros, cantidad_numeros, archivosalida, separador[0]);
-        
         // Liberacion del arreglo
         free(arreglo_numeros);
     }
@@ -675,6 +658,14 @@ int main(int argc, char *argv[])
     else{
         // Llamado a la funcion reimprimir_archivo
         reimprimir_archivo(entrada,archivosalida);
+    }
+
+    // Cerrar los archivos si no son stdin/stdout
+    if (entrada != stdin) {
+         fclose(entrada);
+     } 
+    if (salida != stdout){
+         fclose(salida);
     }
     return 0;
 }

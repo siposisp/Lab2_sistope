@@ -54,11 +54,8 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
     }
-   
-    //Llamado a la funcion procesar_archivo //Funcion del laboratorio 1
-    //procesar_archivo(archivoentrada, archivosalida, caracterAntiguo, caracterNuevo);
     
-    // Procesar archivo usando el flujo adecuado (archivo o stdin) //Ajuste a la funcion del laboratorio 1
+    // Procesar archivo usando el flujo adecuado (archivo o stdin) 
     procesar_archivo_ajustada(entrada, salida, caracterAntiguo, caracterNuevo);
 
     // Cerrar los archivos si no son stdin/stdout
