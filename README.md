@@ -119,14 +119,52 @@ Ejemplo de compilado correcto:
 
 Comandos para ejecutar el archivo lab2.c implementando pipes segun los requerimientos solicitados:
 
-               ./lab2 ./cut -i input.txt -d : -c 2,4 | srep -s / -S \ | count -o output.txt -C -L
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s x -S \\ | ./count -o output.txt -C -L
 
-               ./lab2 ./srep -i input.txt -s / -S \ | cut -d : -c 2,4 -o output.txt
+               ./lab2 ./srep -i input.txt -s / -S \ | ./cut -d : -c 2,4 | ./cut -d : -c 1,2 -o output.txt
 
-               ./lab2 cut -i input.txt -d : -c 2,4 | ./srep -s / -S \ | count -C
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
+
+              ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 -o output.txt
+
+              ./lab2 ./srep -i input.txt -s / -S hola | ./srep -s x -S adios | ./srep -s : -S 97 | ./count -L -o output.txt
 
 Estos son algunos ejemplos de comandos implementados.
+
+<h2>Excepciones en laboratorio 2</h2>
+
+Excepcion 1 : Solo el ultimo archivo debe tener la salida -o output.txt (Ejemplo de salida), en caso de que se escriba entre medio de los comandos, generara problemas de generacion de archivo si se vuelve a colocar al final.
+
+Caso erroneo:
+
+               ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt
+
+Caso correcto:
+
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \ | ./count -C -o output.txt
+
+Excepcion 2: El programa esta habilitado a recibir comandos sin comillas (" ").
+
+Caso erroneo:
+
+               ./lab2 "./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt"
                
+Caso correcto:
+
+              ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt
+
+Excepcion 3: Bash. El programa esta habilitado a recibir los comandos con  "./".
+
+Caso erroneo:
+
+               ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | cut -d : -c 2,4 -o output.txt
+
+Caso correcto:
+
+               ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt
+
+Tambien hay que tener en cuenta las excepciones del laboratorio 1 para su correcto funcionamiento.
+
 <h2>Descripción</h2>
 
 En este laboratorio se implementara algunas funciones simplificadas de las que provienen UNIX, en la que se realizaran distintas manipulaciones de texto sobre los archivos csv entregados. Cada una de estas funciones sera un archivo .c distinto, el cual realizara el simil de la funcion UNIX respectiva. Finalmente, estos archivos se ejecutaran por linea de comando.
