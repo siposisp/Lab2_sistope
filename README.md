@@ -178,7 +178,7 @@ El programa srep (String Replace) realiza un reemplazo del “string objetivo”
 <h3>Funcion Count</h3>
 El programa count se usa para obtener el total de lineas, palabras o bytes contenidos en el archivo csv, siendo en el caso de indicar un archivo de entrada; en caso contrario, la entrada sera por stdin.
 
-<h3>Uso de pipes</h3>
+<h2>Uso de pipes</h2>
 
 Anteriormente, se describieron los programas cut, count y srep, los que debieron ser construidos e implementados en el laboratorio 1. Ahora se debera desarrollar un cuarto programa, el que tendra la mision de llamar y coordinar a los programas mencionados anteriormente (cut, count y srep). Este cuarto programa debe ser llamado lab2.c el cual recibira como argumento de linea de comando un string que describe la ejecucion de uno, dos o tres de los programas (cut, count y srep) conectados
 por pipes.
