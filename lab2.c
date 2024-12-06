@@ -75,7 +75,9 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < cant_comandos; i++) {
         pid_t pid = fork();
 
-        if (pid == -1) manejo_error("fork");
+        if (pid == -1){
+            manejo_error("fork");
+        } 
 
         // Proceso hijo
         if (pid == 0) { 
