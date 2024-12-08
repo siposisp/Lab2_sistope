@@ -5,8 +5,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-// Función auxiliar para manejo de errores
-void manejo_error(const char *msg) {
+// Entradas: Recibe un char* (una palabra).
+// Salida: No tiene retorno, ya que es void
+// Descripción: Función auxiliar para manejo de errores
+void manejo_error(char *msg) {
     perror(msg);
     exit(EXIT_FAILURE);
 }
