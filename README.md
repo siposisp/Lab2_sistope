@@ -155,6 +155,31 @@ Caso correcto:
                ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
 
 
+Excepcion 3 : Si se desea ingresar el nombre de los programas sin el "./" se debe ingresar por consola el comando 'export PATH=$PATH:$(pwd)' después de ejecutar comando make
+
+Ejemplo de uso del comando en consola:
+nicolas@nicolas-PC:~/Escritorio/Nueva carpeta/e/r$ make
+gcc -Wall -c cut.c
+gcc -Wall -o cut cut.o
+gcc -Wall -c count.c
+gcc -Wall -o count count.o
+gcc -Wall -c srep.c
+gcc -Wall -c funcionessrep.c
+gcc -Wall -o srep srep.o funcionessrep.o
+gcc -Wall -c lab2.c
+gcc -Wall -o lab2 lab2.o
+nicolas@nicolas-PC:~/Escritorio/Nueva carpeta/e/r$ export PATH=$PATH:$(pwd)
+nicolas@nicolas-PC:~/Escritorio/Nueva carpeta/e/r$ ./lab2 cut -i input.txt -d : -c 2,4 | srep -s / -S \\ | count -C -L -o output.txt
+
+Caso con export PATH=$PATH:$(pwd):
+
+               ./lab2 cut -i input.txt -d : -c 2,4 | srep -s : -S a | count -C -L -o output.txt
+
+Caso sin export PATH=$PATH:$(pwd):
+
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s : -S a | ./count -C -L -o output.txt
+
+
 Tambien hay que tener en cuenta las excepciones del laboratorio 1 para su correcto funcionamiento.
 
 <h2>Descripción</h2>

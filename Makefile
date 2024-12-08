@@ -1,6 +1,7 @@
 FLAGS = -Wall
 
-export PATH := $(PATH):$(CURDIR)
+# Modificación del PATH para incluir el directorio actual
+export PATH := $(PATH):$(shell pwd)
 
 all: cut count srep lab2
 
