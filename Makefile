@@ -1,5 +1,7 @@
 FLAGS = -Wall
 
+export PATH := $(PATH):$(CURDIR)
+
 all: cut count srep lab2
 
 # Regla para cut

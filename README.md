@@ -155,17 +155,6 @@ Caso correcto:
                ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
 
 
-Excepcion 3: El programa esta habilitado solo para recibir los comandos en su formato correcto para hacer llamados (ej. "./srep" y no "srep").
-
-Caso erroneo:
-
-               ./lab2 srep -i input.txt -s / -S hola | ./cut -d : -c 2,4 -o output.txt
-               
-Caso correcto:
-
-              ./lab2 ./srep -i input.txt -s / -S hola | ./cut -d : -c 2,4 -o output.txt
-
-
 Tambien hay que tener en cuenta las excepciones del laboratorio 1 para su correcto funcionamiento.
 
 <h2>Descripción</h2>

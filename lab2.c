@@ -99,7 +99,19 @@ int main(int argc, char *argv[]) {
             }
 
             // Ejecutar programa
-            execvp(comandos[i][0], comandos[i]);
+            if(strcmp(comandos[i][0], "cut") == 0){
+                execvp("./cut", comandos[i]);
+            }
+            if(strcmp(comandos[i][0], "srep") == 0){
+                execvp("./srep", comandos[i]);
+            }
+            if(strcmp(comandos[i][0], "count") == 0){
+                execvp("./count", comandos[i]);
+            }
+            else{
+                execvp(comandos[i][0], comandos[i]);
+            }
+            
             manejo_error("execvp");
         }
     }
