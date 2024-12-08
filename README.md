@@ -133,7 +133,7 @@ Estos son algunos ejemplos de comandos implementados.
 
 <h2>Excepciones en laboratorio 2</h2>
 
-Excepcion 1 : Solo el ultimo archivo debe tener la salida -o output.txt (Ejemplo de salida), en caso de que se escriba entre medio de los comandos, generara problemas de generacion de archivo si se vuelve a colocar al final.
+Excepcion 1 : Solo el ultimo archivo debe tener la salida -o output.txt (Ejemplo de salida), en caso de que se escriba entre medio de los comandos, provocara problemas de generacion de archivo si se vuelve a colocar al final.
 
 Caso erroneo:
 
@@ -143,25 +143,28 @@ Caso correcto:
 
                ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
 
-Excepcion 2: El programa esta habilitado a recibir comandos sin comillas (" ").
+
+Excepcion 2 : Solo el primer archivo debe tener la entrada -i input.txt (Ejemplo de entrada), en caso de que se escriba entre medio de los comandos, provocara problemas de generacion de contenido de archivo.
 
 Caso erroneo:
 
-               ./lab2 "./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt"
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -i input.txt -o output.txt
+
+Caso correcto:
+
+               ./lab2 ./cut -i input.txt -d : -c 2,4 | ./srep -s / -S \\ | ./count -C -o output.txt
+
+
+Excepcion 3: El programa esta habilitado solo para recibir los comandos en su formato correcto para hacer llamados (ej. "./srep" y no "srep").
+
+Caso erroneo:
+
+               ./lab2 srep -i input.txt -s / -S hola | ./cut -d : -c 2,4 -o output.txt
                
 Caso correcto:
 
-              ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt
+              ./lab2 ./srep -i input.txt -s / -S hola | ./cut -d : -c 2,4 -o output.txt
 
-Excepcion 3: Bash. El programa esta habilitado a recibir los comandos con  "./".
-
-Caso erroneo:
-
-               ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | cut -d : -c 2,4 -o output.txt
-
-Caso correcto:
-
-               ./lab2 ./srep -i input.txt -s / -S hola -o output.txt | ./cut -d : -c 2,4 -o output.txt
 
 Tambien hay que tener en cuenta las excepciones del laboratorio 1 para su correcto funcionamiento.
 
