@@ -1,4 +1,4 @@
-<h1>Sistemas Operativos: Laboratorio 2</h1>
+<h1>Sistemas Operativos: Laboratorio 2 (Nota 7)</h1>
 
 Este repositorio contiene el segundo laboratorio del curso de Sistemas Operativos, principalmente enfocado en diferentes aspectos del manejo de procesos en un sistema operativo Linux y el uso de pipes.
 
